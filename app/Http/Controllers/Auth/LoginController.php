@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 class LoginController extends Controller
 {
     public function showLoginForm()
@@ -14,20 +15,26 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
-        ]);
+        $user = User::where('email', $request->email)->first();
 
-        if (Auth::attempt($credentials, $request->filled('remember'))) {
-            $request->session()->regenerate();
-            return redirect()->intended('/dashboard'); // or home page
+        if (!$user) {
+            return back()->withErrors([
+                'email' => 'No user found with this email.',
+            ]);
         }
 
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ]);
+        if (!Hash::check($request->password, $user->password)) {
+            return back()->withErrors([
+                'password' => 'Incorrect password.',
+            ]);
+        }
+
+        Auth::login($user, $request->filled('remember'));
+        $request->session()->regenerate();
+        return redirect()->intended('/dashboard');
     }
+
+
 
     public function logout(Request $request)
     {

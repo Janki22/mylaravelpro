@@ -6,6 +6,14 @@
 
   <div class="text-center mb-3">
     <h4>Login</h4>
+    @if($errors->any())
+  <div class="alert alert-danger">
+    @foreach($errors->all() as $error)
+      <div>{{ $error }}</div>
+    @endforeach
+  </div>
+@endif
+
     <p class="text-muted">Enter your credentials</p>
   </div>
 
