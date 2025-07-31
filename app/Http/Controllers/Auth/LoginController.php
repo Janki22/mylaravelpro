@@ -14,25 +14,32 @@ class LoginController extends Controller
     }
 
     public function login(Request $request)
-    {
-        $user = User::where('email', $request->email)->first();
+{
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required|string',
+    ]);
 
-        if (!$user) {
-            return back()->withErrors([
-                'email' => 'No user found with this email.',
-            ]);
-        }
+    $user = User::where('email', $request->email)->first();
 
-        if (!Hash::check($request->password, $user->password)) {
-            return back()->withErrors([
-                'password' => 'Incorrect password.',
-            ]);
-        }
-
-        Auth::login($user, $request->filled('remember'));
-        $request->session()->regenerate();
-        return redirect()->intended('/dashboard');
+    if (!$user) {
+        return back()->withErrors([
+            'email' => 'No user found with this email.',
+        ]);
     }
+
+    // Plain text password comparison
+    if ($request->password !== $user->password) {
+        return back()->withErrors([
+            'password' => 'Incorrect password.',
+        ]);
+    }
+
+    Auth::login($user, $request->filled('remember'));
+    $request->session()->regenerate();
+
+    return redirect()->intended('/dashboard');
+}
 
 
 
