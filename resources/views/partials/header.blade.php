@@ -1,14 +1,5 @@
-<header class="top-header">
-    <nav class="navbar navbar-expand">
-        <div class="mobile-toggle-icon d-xl-none">
-            <ion-icon name="menu-outline"></ion-icon>
-        </div>
-        <div class="top-navbar-right ms-auto">
-            <ul class="navbar-nav align-items-center">
-                <li class="nav-item">
-                    <span class="nav-link">Welcome, {{ Auth::user()->name ?? 'User' }}</span>
-                </li>
-            </ul>
-        </div>
-    </nav>
-</header>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login</title>
+<!-- Bootstrap CSS CDN -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
