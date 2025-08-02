@@ -20,7 +20,7 @@
 
     <div class="col-12">
         <label for="inputEmail" class="form-label">Email</label>
-        <input type="email" class="form-control" name="email" id="inputEmail" required autofocus>
+        <input type="email" class="form-control" name="email"  value="{{ old('email') }}" id="inputEmail" required autofocus>
     </div>
 
     <div class="col-12">
